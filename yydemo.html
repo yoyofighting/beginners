@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script>
+function showHint(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+        xmlhttp=new XMLHttpRequest();
+    }
+    else{
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function(){
+        if(xmlhttp.readyState==4 && xmlhttp.status==200){
+            myfunction(this);
+        }
+    }
+    xmlhttp.open("GET","cd_catalog.xml",true);
+    xmlhttp.send();
+} 
+function myfunction(xml){
+    var i;
+    var xmlDoc =xml.responseXML;
+    var table="<tr><th>Artist</th><th>Title</th></tr>";
+    var x=xmlDoc.getElementsByTagName("CD");
+    for(i=0;i<x.length;i++){
+        table += "<tr><td>"+x[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue+
+            "</td><td>"+x[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue+"</td></tr>";    
+    }
+    document.getElementById("demo").innerHTML = table;
+} 
+</script>
+</head>
+
+
+<body>
+<h3>XMLHttpRequest 对象</h3>
+<form>
+    <input type="button" onkeyup="showHint()"/>
+</form>
+<br/>
+<table id="demo"></table>
+</body>
+
+</html>
